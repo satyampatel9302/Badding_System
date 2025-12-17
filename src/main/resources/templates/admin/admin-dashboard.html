@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/4d6d36f9c1.js" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: #1e293b;
+            --primary-color: #6366f1;
+            --gradient-bg: linear-gradient(135deg, #6366f1, #3b82f6);
+            --text-light: #f1f5f9;
+            --card-bg: #ffffff;
+            --navbar-bg: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: #f8fafc;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar-bg);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 25px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            transition: transform 0.4s ease-in-out;
+            z-index: 1000;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar a i {
+            font-size: 18px;
+        }
+
+        .sidebar a:hover {
+            background: var(--sidebar-hover);
+            color: #fff;
+            transform: translateX(6px);
+        }
+
+        .sidebar a.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 0 25px 25px 0;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            transition: margin-left 0.4s ease;
+        }
+
+        .navbar {
+            background: var(--navbar-bg);
+            padding: 15px 25px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .container {
+            padding: 30px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #111827;
+        }
+
+        .card p {
+            color: #4b5563;
+        }
+
+        .stats {
+            display: flex;
+            gap: 25px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            flex: 1 1 220px;
+            background: var(--gradient-bg);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+        }
+
+        .stat-box h3 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .stat-box p {
+            font-size: 34px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stat-box i {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .toggle-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a th:href="@{/admin/home}" class="active"><i class="fas fa-house"></i> Home</a>
+        <a th:href="@{/admin/category/all}"><i class="fas fa-folder-open"></i> Category</a>
+        <a th:href="@{/admin/shop/all}"><i class="fas fa-boxes-stacked"></i> Shop</a>
+        <a th:href="@{/admin/master/manage}" sec:authorize="hasRole('MASTER')"><i class="fas fa-user-gear"></i> Admin</a>
+		<a th:href="@{/admin/bid/history/all}" class="btn btn-info"><i class="fas fa-boxes-stacked"></i>
+				     Bid History
+				</a>
+        <a th:href="@{/admin/logout}"><i class="fas fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="navbar">
+            <span class="toggle-btn" onclick="toggleSidebar()">☰</span>
+            Admin Dashboard
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <h2>Welcome, <span th:text="${admin.username}">Admin</span> 👋</h2>
+                <p>You are logged in as <b th:text="${admin.role}">ROLE</b>.</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <i class="fas fa-folder"></i>
+                    <h3>Total Categories</h3>
+                    <p th:text="${totalCategories}">0</p>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-cube"></i>
+                    <h3>Total SubCategories</h3>
+                    <p th:text="${shops}">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+    </script>
+
+</body>
+</html>
+
+

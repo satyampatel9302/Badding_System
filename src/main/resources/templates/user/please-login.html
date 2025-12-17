@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Please Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .animation {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        a {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="animation">
+        <img src="https://lottie.host/60c0f4c6-f1f2-4dc7-a0d5-2f54756b38ae/wOIBFzW5oH.json" alt="Login animation" />
+        <!-- You can replace with Lottie or a GIF -->
+    </div>
+    <h2>You are not logged in</h2>
+    <p>Please login to continue using the platform.</p>
+    <a href="/login">Login</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shop | Badding System</title>
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet"
+		      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #eef2f7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: #222831;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        nav .logo {
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: #eeeeee;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffd369;
+        }
+
+        /* ================= HERO ================= */
+        .hero {
+            height: 320px;
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+                        url('/hero-section/hero-section.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* ================= SEARCH ================= */
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            padding: 0 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 30px;
+            border: 2px solid #ddd;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #00b894;
+            box-shadow: 0 0 10px #00b894;
+        }
+
+        /* ================= GRID ================= */
+        .products-container {
+            max-width: 1500px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #222831;
+        }
+
+        .product-card p {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #222831;
+            margin-bottom: 15px;
+        }
+
+        .btn-view {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: #343a40;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-view:hover {
+            background: #222831;
+            transform: translateY(-2px);
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 13px;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 1200px) {
+            .products-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .products-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .products-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+		
+		
+		
+		
+		
+		
+		.highestBid {
+		     color: black;
+		     font-weight: 700;
+		     font-size: 18px;
+		     transition: transform .2s, background-color .2s;
+		 }
+
+		 .bid-updated {
+		     background: #dff9fb;
+		     transform: scale(1.1);
+		     padding: 4px 8px;
+		     border-radius: 6px;
+		 }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">	<i class="bi bi-graph-up-arrow"></i> Bidding System
+</div>
+    <ul>
+		<li><a class="text-white text-decoration-none fw-medium" th:href="@{/user/home}"><i class="bi bi-house"></i> Home</a></li>
+				    <li><a class="text-white text-decoration-none fw-medium" th:href="@{/user/shop}"><i class="bi bi-bag"></i> Shop</a></li>
+				    <li><a class="text-white text-decoration-none fw-medium" th:href="@{/user/login}"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+				    <li><a class="text-white text-decoration-none fw-medium" th:href="@{/user/register}"><i class="bi bi-person-plus"></i> Register</a></li>
+				    <li><a class="text-white text-decoration-none fw-medium" th:href="@{/user/my-bids}"><i class="fa-solid fa-gavel"></i> Your Bids</a></li>
+				    
+				    <li><a class="text-white text-decoration-none fw-medium" th:href="@{/user/profile}"><i class="bi bi-person-circle"></i> Profile</a></li>
+					<!-- 🔔 Bell ICON (THIS WAS MISSING) -->
+					 <li class="position-relative">
+					     <a href="javascript:void(0)" id="notificationBell" style="color:white;">
+					         <i class="fa fa-bell"></i>
+					         <span id="notification-count"
+					               class="position-absolute top-0 start-100 translate-middle
+					                      badge rounded-pill bg-danger">0</span>
+					     </a>
+					 </li>
+				
+    </ul>
+</nav>
+
+<!-- 🔔 Notification Panel -->
+<div id="notification-panel"
+     style="display:none;
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: 320px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            z-index: 9999;">
+
+    <div style="padding: 12px; font-weight: bold; border-bottom: 1px solid #eee;">
+        🔔 Notifications
+    </div>
+
+    <ul id="notification-list"
+        style="list-style:none; padding: 10px; margin:0;
+               max-height: 300px; overflow-y: auto;">
+    </ul>
+</div>
+
+<section class="hero">
+    <div>
+        <h1>Discover Shops for Auction</h1>
+        <p>Find verified shops, compete with other bidders, and win the best deals.</p>
+    </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-box">
+    <input type="text" id="search" placeholder="🔍 Search mobile..." oninput="filterCards()">
+</div>
+
+<!-- SUBCATEGORY GRID -->
+<div class="products-container" id="productsContainer">
+
+    <div th:each="sub : ${shops}" class="product-card">
+        <img th:src="@{${sub.shop_primaryImg}}" alt="Shop Image">
+
+        <h3 class="product-name" th:text="${sub.shopName}"></h3>
+
+        <!-- Show Min Bid -->
+        <p style="font-size: 1.1rem; color: #555;">Min Bid: ₹ <span th:text="${sub.minBid}"></span></p>
+
+        <!-- Show live highest bid -->
+        <p>Current Bid: ₹ 
+            <span class="highestBid"
+                  th:attr="data-shop-id=${sub.id}"
+                  th:text="${displayBids[sub.id] != null ? displayBids[sub.id] : sub.minBid}">
+            </span>
+        </p>
+
+        <a th:href="@{'/user/shop/' + ${sub.id}}" class="btn-view">
+            👁 View
+        </a>
+    </div>
+
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 MobileMart. All rights reserved.</p>
+    <p>
+        <a href="#">Privacy</a> |
+        <a href="#">Terms</a> |
+        <a href="#">Support</a>
+    </p>
+</footer>
+
+<!-- SEARCH SCRIPT -->
+<script>
+    function filterCards() {
+        const value = document.getElementById('search').value.toLowerCase();
+        const cards = document.querySelectorAll('.product-card');
+
+        cards.forEach(card => {
+            const name = card.querySelector('.product-name').innerText.toLowerCase();
+            card.style.display = name.includes(value) ? '' : 'none';
+        });
+    }
+</script>
+<!-- LIVE BID SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<div id="toast-container"></div>
+
+<!-- JS -->
+<script>
+
+
+// Toast function
+function showToast(message) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = message;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 5000);
+}
+
+// WebSocket connection
+let socket = new SockJS('/bid-ws');
+let stompClient = Stomp.over(socket);
+let notificationCount = 0;
+
+stompClient.connect({}, () => {
+
+  // Live Bid Updates
+  document.querySelectorAll('.highestBid').forEach(span => {
+    let shopId = span.dataset.shopId;
+    stompClient.subscribe('/topic/bids/' + shopId, msg => {
+      let data = JSON.parse(msg.body);
+      span.innerText = data.amount;
+      span.classList.add("bid-updated");
+      setTimeout(() => span.classList.remove("bid-updated"), 600);
+    });
+  });
+
+  // Global Notifications
+  stompClient.subscribe('/topic/bid-alerts', msg => {
+    let data = JSON.parse(msg.body);
+    notificationCount++;
+    document.getElementById("notification-count").innerText = notificationCount;
+
+    showToast("🔔 <b>New Bid</b><br>" + data.bidderName + " bid ₹" + data.amount + "<br><small>" + data.shopName + "</small>");
+
+    let li = document.createElement("li");
+    li.style.padding = "8px";
+    li.style.borderBottom = "1px solid #eee";
+    li.innerHTML = "<b>" + data.bidderName + "</b> bid ₹" + data.amount + "<br><small>" + data.shopName + "</small>";
+    document.getElementById("notification-list").prepend(li);
+  });
+});
+
+// Notification Bell toggle
+document.getElementById("notificationBell").addEventListener("click", function () {
+  const panel = document.getElementById("notification-panel");
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+  document.getElementById("notification-count").innerText = 0;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Bids | MobailMart</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #222831, #393e46);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 60px; /* space for footer */
+}
+
+/* ===== NAVBAR ===== */
+nav {
+    background: #222831;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+nav .logo {
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #f1f1f1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffc107;
+}
+
+/* ===== PAGE HEADER ===== */
+h2 {
+    text-align: center;
+    color: #ffe082;
+    margin-bottom: 5px;
+}
+
+.total-bids {
+    text-align: center;
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+/* ===== BID CARDS ===== */
+.bid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1400px;
+    margin: auto;
+}
+
+.bid-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.shop-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffc107;
+    margin-bottom: 10px;
+}
+
+.bid-amount {
+    font-size: 22px;
+    font-weight: bold;
+    color: #00ff95;
+    margin-bottom: 8px;
+}
+
+.bid-time {
+    font-size: 14px;
+    color: #ccc;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    background: rgba(255,255,255,0.15);
+    color: #ffc107;
+    border-radius: 20px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+/* ===== FOOTER ===== */
+footer {
+	
+    background: #222831;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 13px;
+    margin-top: auto;
+}
+
+footer a {
+    color: #ffc107;
+    text-decoration: none;
+    margin: 0 8px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">
+<i class="bi bi-graph-up-arrow"></i> Bidding System    </div>
+    <ul>
+        <li><a th:href="@{/user/home}"><i class="bi bi-house"></i> Home</a></li>
+        <li><a th:href="@{/user/shop}"><i class="bi bi-bag"></i> Shop</a></li>
+        <li><a class="active" th:href="@{/user/my-bids}"><i class="fa-solid fa-gavel"></i> My Bids</a></li>
+        <li><a th:href="@{/user/profile}"><i class="bi bi-person-circle"></i> Profile</a></li>
+        <li><a th:href="@{/user/logout}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+    </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<h2>My Bids</h2>
+<p class="total-bids">
+    Total Bids: <strong><span th:text="${totalBids}"></span></strong>
+</p>
+
+<!-- BID CARDS -->
+<div class="bid-container">
+    <div class="bid-card" th:each="bid : ${bids}">
+        <div class="shop-name" th:text="${bid.shop.shopName}"></div>
+        <div class="bid-amount">₹ <span th:text="${bid.amount}"></span></div>
+        <div class="bid-time">⏰ <span th:text="${#temporals.format(bid.bidTime, 'dd MMM yyyy, hh:mm a')}"></span></div>
+        <div class="badge">Active Bid</div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 MobailMart. All rights reserved.</p>
+    <p>
+        <a href="#">Privacy</a> |
+        <a href="#">Terms</a> |
+        <a href="#">Support</a>
+    </p>
+</footer>
+
+</body>
+</html>

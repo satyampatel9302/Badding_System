@@ -1,0 +1,195 @@
+
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            width: 85%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        /* Stats Cards */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: #34495e;
+            padding: 30px;
+            border-radius: 16px;
+            width: 240px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) rotate(-1deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .card p {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Admin Details */
+        .details-section {
+            margin-top: 30px;
+        }
+
+        .details-box {
+            margin: 20px auto;
+            padding: 30px;
+            background: #fef9f4;
+            border-radius: 16px;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+            width: 70%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .details-box:hover {
+            transform: translateY(-5px);
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.08);
+        }
+
+        .details-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .details-box li {
+            margin: 14px 0;
+            padding: 14px 18px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .details-box li:hover {
+            background: #fdf2e9;
+        }
+
+        .details-box strong {
+            color: #2c3e50;
+        }
+
+        .password-mask {
+            font-family: monospace;
+            letter-spacing: 2px;
+            color: #888;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: block;
+            width: fit-content;
+            margin: 35px auto 0;
+            padding: 14px 35px;
+            background: #34495e;
+            color: white;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.18);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats { flex-direction: column; align-items: center; }
+            .details-box { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Section -->
+        <h1 th:text="'Welcome, ' + ${admin.username} + '!'">Welcome, Admin!</h1>
+        <h2 th:text="'Role: ' + ${admin.role}">Role: Master</h2>
+
+        <!-- Stats Section -->
+        <div class="stats">
+            <div class="card">
+                <h3>Total Categories</h3>
+                <p th:text="${totalCategories}">0</p>
+            </div>
+            <div class="card">
+                <h3>Total SubCategories</h3>
+                <p th:text="${totalShops}">0</p>
+            </div>
+        </div>
+
+        <!-- Admin Details -->
+        <div class="details-section">
+            <h2>Admin Details</h2>
+            <div class="details-box">
+                <ul>
+                    <li><strong>ID:</strong> <span th:text="${admin.id}">1</span></li>
+                    <li><strong>Username:</strong> <span th:text="${admin.username}">admin</span></li>
+                    <li><strong>Email:</strong> <span th:text="${admin.email}">admin@mail.com</span></li>
+                    <li><strong>Password:</strong> 
+                        <span class="password-mask" th:text="${#strings.repeat('*', admin.password.length())}">********</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <a th:href="@{/admin/dashboard}" class="back-btn">⬅ Back to Dashboard</a>
+    </div>
+</body>
+</html>

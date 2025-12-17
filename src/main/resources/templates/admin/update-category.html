@@ -1,0 +1,90 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Category</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f4f6f9; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        .container { 
+            width: 400px; 
+            margin: 60px auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        }
+
+        h2 { 
+            text-align: center; 
+            color: #2c3e50; 
+            margin-bottom: 20px; 
+        }
+
+        form { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+
+        input[type="text"] { 
+            padding: 12px; 
+            border-radius: 6px; 
+            font-size: 16px; 
+            border: 1px solid #ccc; 
+            transition: border 0.3s;
+        }
+        input[type="text"]:focus {
+            border: 1px solid #3498db;
+            outline: none;
+        }
+
+        input[type="submit"] { 
+            padding: 12px; 
+            border-radius: 6px; 
+            font-size: 16px; 
+            border: none; 
+            background: #3498db; 
+            color: white; 
+            cursor: pointer; 
+            transition: background 0.3s;
+        }
+        input[type="submit"]:hover { 
+            background: #2980b9; 
+        }
+
+        .back { 
+            display: block; 
+            margin-top: 15px; 
+            text-align: center; 
+            color: white; 
+            background: #27ae60; 
+            padding: 10px; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-size: 15px;
+            transition: background 0.3s;
+        }
+        .back:hover {
+            background: #219150;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Update Category</h2>
+    <form th:action="@{/admin/category/update/{id}(id=${category.id})}" method="post" th:object="${category}">
+        <input type="text" th:field="*{categoryName}" placeholder="Enter category name" required>
+        <input type="submit" value="Update Category">
+    </form>
+    <a href="/admin/category/all" class="back">⬅ Back to Categories</a>
+</div>
+</body>
+</html>

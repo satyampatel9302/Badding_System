@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin | Winners</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: #fff;
+        }
+
+        thead th {
+            padding: 14px;
+            text-align: left;
+            font-size: 15px;
+        }
+
+        tbody tr {
+            transition: background 0.3s ease;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background: #ecfdfb;
+        }
+
+        td {
+            padding: 12px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .badge-amount {
+            background: #3498db;
+        }
+
+        .badge-date {
+            background: #9b59b6;
+        }
+
+        .winner-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .email {
+            color: #7f8c8d;
+            font-size: 13px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                background: #fff;
+                margin-bottom: 15px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+                padding: 10px;
+            }
+
+            td {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #555;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🏆 Auction Winners</h1>
+
+    <table th:if="${winners != null and !winners.isEmpty()}">
+        <thead>
+            <tr>
+                <th>Shop</th>
+                <th>Winner</th>
+                <th>Email</th>
+                <th>Winning Bid</th>
+                <th>Declared On</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="w : ${winners}">
+                <td data-label="Shop" th:text="${w.shop.shopName}"></td>
+
+                <td data-label="Winner">
+                    <span class="winner-name" th:text="${w.user.name}"></span>
+                </td>
+
+                <td data-label="Email">
+                    <span class="email" th:text="${w.user.email}"></span>
+                </td>
+
+                <td data-label="Winning Bid">
+                    <span class="badge badge-amount">
+                        ₹ <span th:text="${w.bid.amount}"></span>
+                    </span>
+                </td>
+
+                <td data-label="Declared On">
+                    <span class="badge badge-date"
+                          th:text="${w.declaredDate}">
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="empty" th:if="${winners == null or winners.isEmpty()}">
+        🚫 No winners declared yet.
+    </div>
+</div>
+</body>
+</html>

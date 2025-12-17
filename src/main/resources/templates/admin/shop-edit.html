@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit SubCategory</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* Card container */
+        .form-container {
+            background: #fff;
+            padding: 30px 40px;
+            margin: 40px auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        /* Form */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        select,
+        textarea {
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52,152,219,0.4);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: #27ae60;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #219150;
+            transform: translateY(-2px);
+        }
+
+        /* Back link */
+        .back {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            color: white;
+            background: #3498db;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .back:hover {
+            background: #2980b9;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .form-container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Edit SubCategory</h2>
+	<form th:action="@{'/admin/shop/update/' + ${shop.id}}"
+	      th:object="${shop}"
+	      method="post"
+	      enctype="multipart/form-data">
+
+	    <label>Shop Name:</label>
+	    <input type="text" th:field="*{shopName}" />
+
+	    <label>Description:</label>
+	    <textarea th:field="*{description}"></textarea>
+
+	    <label>Start Date:</label>
+	    <input type="date" th:field="*{startDate}" />
+
+	    <label>End Date:</label>
+	    <input type="date" th:field="*{endDate}" />
+
+	    <label>Minimum Bid:</label>
+	    <input type="number" th:field="*{minBid}" />
+
+	    <label>Category:</label>
+	    <select th:field="*{category}">
+	        <option th:each="cat : ${categories}"
+	                th:value="${cat.id}"
+	                th:text="${cat.categoryName}">
+	        </option>
+	    </select>
+
+	    <label>Change Primary Image:</label>
+	    <input type="file" th:field="*{primaryImgFile}" />
+
+	    <label>Change Other Images:</label>
+	    <input type="file" th:field="*{shopImgFiles}" multiple />
+
+	    <button type="submit">Update</button>
+	</form>
+
+    <a href="/admin/shop/all" class="back">⬅ Back to Products</a>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Categories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+		body {
+		           font-family: Arial, sans-serif;
+		           margin: 0;
+		           background: #eef2f7; /* light gray background like admin manage */
+		       }
+
+		       /* ✅ Navbar */
+		       .navbar {
+		           display: flex;
+		           justify-content: space-between;
+		           align-items: center;
+		           background: #2c3e50; /* dark admin blue */
+		           padding: 12px 20px;
+		           color: white;
+		           position: sticky;
+		           top: 0;
+		           z-index: 1000;
+		       }
+		       .navbar .logo {
+		           font-size: 20px;
+		           font-weight: bold;
+		       }
+		       .navbar ul {
+		           list-style: none;
+		           display: flex;
+		           gap: 20px;
+		       }
+		       .navbar ul li {
+		           display: inline;
+		       }
+		       .navbar ul li a {
+		           color: white;
+		           text-decoration: none;
+		           font-weight: 500;
+		           transition: background 0.3s, color 0.3s;
+		           padding: 6px 12px;
+		           border-radius: 6px;
+		       }
+		       .navbar ul li a:hover {
+		           background: #34495e; /* hover darker blue */
+		       }
+		       .navbar ul li a.active {
+		           background: #f39c12; /* yellow active */
+		           color: black;
+		       }
+
+
+        /* ===== CONTAINER ===== */
+        .container { 
+            width: 90%; 
+            max-width: 1000px; 
+            margin: 40px auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        }
+        h2 { 
+            text-align: center; 
+            color: #2c3e50; 
+            margin-bottom: 20px; 
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+        .add-btn { 
+            background: #27ae60; 
+            color: white; 
+            padding: 10px 18px; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-size: 15px; 
+        }
+        .add-btn:hover { background: #219150; }
+        .search-box input { 
+            padding: 10px; 
+            width: 250px; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+        }
+        .total { 
+            font-weight: bold; 
+            color: #2c3e50; 
+        }
+
+        /* ===== TABLE ===== */
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 15px; 
+            background: #fff;
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 12px; 
+            text-align: center; 
+        }
+        th { 
+            background: #34495e; 
+            color: white; 
+        }
+        tr:nth-child(even) { background: #f9f9f9; }
+        tr:hover { background: #f1f1f1; }
+
+        /* ===== ACTION BUTTONS ===== */
+        .actions a { 
+            padding: 6px 12px; 
+            margin: 0 5px; 
+            border-radius: 5px; 
+            color: white; 
+            text-decoration: none; 
+        }
+        .edit { background: #3498db; }
+        .edit:hover { background: #2980b9; }
+        .delete { background: #e74c3c; }
+        .delete:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">Admin Panel</div>
+    <ul>
+        <li><a href="/admin/dashboard"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/admin/category/all"><i class="fa fa-list"></i> Category</a></li>
+        <li><a href="/admin/shop/all"><i class="fa fa-box"></i> Shop</a></li>
+        <li><a href="/admin/master/manage" sec:authorize="hasRole('MASTER')" ><i class="fa fa-user-shield"></i> Admin</a></li>
+        <li>		<a th:href="@{/admin/bid/history/all}" class="btn btn-info"><i class="fas fa-boxes-stacked"></i>
+					     Bid History
+					</a></li>
+        <li><a href="/admin/logout"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</div>
+
+<!-- CONTAINER -->
+<div class="container">
+    <h2>All Categories</h2>
+
+    <div class="top-bar">
+        <a href="/admin/category/add" class="add-btn">➕ Add Category</a>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Search category...">
+        </div>
+        <div class="total">Total: <span id="totalCount" th:text="${#lists.size(categories)}"></span></div>
+    </div>
+
+    <table id="categoryTable">
+        <thead>
+        <tr>
+            <th>S.No.</th>
+            <th>Category Name</th>
+            <th>Actions</th>
+            <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cat, stat : ${categories}">
+            <td th:text="${stat.index + 1}"></td>
+            <td th:text="${cat.categoryName}"></td>
+            <td class="actions">
+                <a th:href="@{/admin/category/update/{id}(id=${cat.id})}" class="edit">✏ Edit</a>
+                <a th:href="@{/admin/category/delete/{id}(id=${cat.id})}" class="delete">🗑 Delete</a>
+            </td>
+            <td>
+                <img th:if="${cat.category_img != null}" 
+                     th:src="@{${cat.category_img}}" 
+                     alt="Category Image"
+                     style="width: 60px; height: 60px; object-fit: cover;"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const table = document.getElementById("categoryTable").getElementsByTagName("tbody")[0];
+    const totalCount = document.getElementById("totalCount");
+
+    searchInput.addEventListener("keyup", function () {
+        let filter = searchInput.value.toLowerCase();
+        let rows = table.getElementsByTagName("tr");
+        let visibleCount = 0;
+
+        for (let i = 0; i < rows.length; i++) {
+            let nameCell = rows[i].getElementsByTagName("td")[1];
+            if (nameCell) {
+                let textValue = nameCell.textContent || nameCell.innerText;
+                if (textValue.toLowerCase().indexOf(filter) > -1) {
+                    rows[i].style.display = "";
+                    visibleCount++;
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+        totalCount.textContent = visibleCount;
+    });
+</script>
+</body>
+</html>
+

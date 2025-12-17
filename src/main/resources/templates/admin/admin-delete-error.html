@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Admin Error</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #34495e; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+        }
+        .card {
+            background: #fff; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1); 
+            text-align: center; 
+            width: 450px;
+        }
+        .icon {
+            font-size: 70px; 
+            color: #ff4b5c; 
+            margin-bottom: 20px;
+        }
+        h2 { 
+            color: #333; 
+            margin-bottom: 15px; 
+        }
+        p {
+            color: #555; 
+            font-size: 21px; 
+            margin-bottom: 30px;
+        }
+        a {
+            display: inline-block; 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            background: #4facfe; 
+            color: white; 
+            text-decoration: none; 
+            transition: 0.3s;
+        }
+        a:hover { background: #358bd6; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">⚠️</div>
+        <h2>Cannot Delete Admin</h2>
+        <p th:text="${errorMessage}">
+            Please clear assigned categories/products before deleting this admin.
+        </p>
+        <a th:href="@{/admin/dashboard}">⬅ Back to Dashboard</a>
+    </div>
+</body>
+</html>

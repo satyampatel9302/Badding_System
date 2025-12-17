@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #34495e;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .register-box {
+            background: #fff;
+            width: 100%;
+            max-width: 420px;
+            padding: 35px 30px;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px 40px 12px 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 8px rgba(79, 172, 254, 0.4);
+            outline: none;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #999;
+        }
+
+        .error {
+            color: #d8000c;
+            background: #ffd2d2;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #d8000c;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #34495e;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #34495e;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 480px) {
+            .register-box {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+    <!-- Font Awesome (for icons) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="register-box">
+    <h2>Admin Registration</h2>
+
+    <form th:action="@{/admin/register}" th:object="${admin}" method="post">
+
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" th:field="*{username}" placeholder="Enter username" required>
+            <i class="fas fa-user input-icon"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" th:field="*{email}" placeholder="Enter email" required>
+            <i class="fas fa-envelope input-icon"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" th:field="*{password}" placeholder="Enter password" required>
+            <i class="fas fa-lock input-icon"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Role</label>
+            <select th:field="*{role}">
+                <option value="NORMAL">Normal Admin</option>
+                <!-- <option value="MASTER">Master Admin</option> -->
+            </select>
+            <i class="fas fa-user-shield input-icon"></i>
+        </div>
+
+        <!-- Error Message -->
+        <div th:if="${emailError}" class="error" th:text="${emailError}"></div>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>
+

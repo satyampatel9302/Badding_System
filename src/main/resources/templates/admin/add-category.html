@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Category</title>
+    <style>
+        body { font-family: Arial; background: #f4f6f9; }
+        .container { width: 400px; margin: 60px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+        form { display: flex; flex-direction: column; gap: 15px; }
+        input[type="text"], input[type="submit"] { padding: 12px; border-radius: 6px; font-size: 16px; border: 1px solid #ccc; }
+        input[type="submit"] { background: #27ae60; color: white; border: none; cursor: pointer; }
+        input[type="submit"]:hover { background: #219150; }
+        .back { display: block; margin-top: 10px; text-align: center; color: white; background: #3498db; padding: 10px; border-radius: 6px; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Add New Category</h2>
+	<form th:action="@{/admin/category/add}" method="post" enctype="multipart/form-data">
+	    <input type="text" name="categoryName" placeholder="Enter category name" required>
+
+	    <label>Primary Image:</label>
+	    <input type="file" name="imageFile" accept="image/*" required>
+
+	    <input type="submit" value="Save Category">
+	</form>
+
+    <a href="/admin/category/all" class="back">⬅ Show Categories</a>
+</div>
+</body>
+</html>

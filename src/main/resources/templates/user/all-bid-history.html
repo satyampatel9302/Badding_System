@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Bidding History</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 30px;
+        }
+
+        .bid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            max-width: 1300px;
+            margin: auto;
+        }
+
+        .bid-card {
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .bid-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 8px;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .bid-amount {
+            font-size: 22px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 6px;
+        }
+
+        .bid-time {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 14px;
+            font-size: 12px;
+            border-radius: 20px;
+            background-color: #f0f4ff;
+            color: #007bff;
+        }
+
+        .back-btn {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 0;
+            padding: 10px 24px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>All Products Bidding History</h2>
+
+<div class="bid-container">
+
+    <div class="bid-card" th:each="bid : ${bids}">
+
+        <div class="product-name"
+             th:text="${bid.shop != null ? bid.shop.subCategoryName : 'N/A'}">
+        </div>
+
+        <div class="user-name"
+             th:text="${bid.user != null ? bid.user.name : 'N/A'}">
+        </div>
+
+        <div class="user-email"
+             th:text="${bid.user != null ? bid.user.email : 'N/A'}">
+        </div>
+
+        <div class="bid-amount">
+            ₹ <span th:text="${bid.amount}"></span>
+        </div>
+
+        <div class="bid-time">
+            ⏰
+            <span th:text="${bid.bidTime != null ?
+                #temporals.format(bid.bidTime, 'dd MMM yyyy, hh:mm a') : 'N/A'}">
+            </span>
+        </div>
+
+        <div class="badge">
+            Bid Placed
+        </div>
+
+    </div>
+
+</div>
+
+<a th:href="@{/user/subCategory/list}" class="back-btn">
+    ← Back to Products
+</a>
+
+</body>
+</html>
