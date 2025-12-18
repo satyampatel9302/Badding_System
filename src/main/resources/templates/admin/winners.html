@@ -129,6 +129,24 @@
                 color: #555;
             }
         }
+		
+		.back-btn {
+		            display: block;
+		            width: fit-content;
+		            margin: 40px auto 0;
+		            padding: 10px 24px;
+		            background-color: #007bff;
+		            color: #fff;
+		            text-decoration: none;
+		            border-radius: 6px;
+		            font-weight: 500;
+		        }
+
+		        .back-btn:hover {
+		            background-color: #0056b3;
+		        }
+
+		      
     </style>
 </head>
 
@@ -137,6 +155,11 @@
 <div class="container">
 
     <h1>🏆 Auction Winners</h1>
+	
+	<a th:href="@{/admin/dashboard}" class="back-btn">
+	    ← Back to Dashboard
+	</a>
+	
 
     <table th:if="${winners != null and !winners.isEmpty()}">
         <thead>

@@ -158,14 +158,4 @@ public class BidController {
 	        return "user/all-winners"; // Thymeleaf template
 	    }
 
-	    
-	    //testing
-	    
-	  /*  @GetMapping("/admin/declare-winner/{shopid}")
-	    @ResponseBody
-	    public String declareWinner(@PathVariable Long shopid) {
-	        Shop shop = shopService.findByShopId(shopid);
-	        bidService.declareWinnerNow(shop);
-	        return "Winner declared and email sent!";
-	    }*/
 }

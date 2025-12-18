@@ -1,5 +1,6 @@
 package com.baddingSystem.dto;
 
+import java.time.LocalDate;
 
 public class BidMessage {
 
@@ -7,6 +8,8 @@ public class BidMessage {
     private String shopName;
     private String bidderName;
     private double amount;
+  
+    // getters & setters    
 
     public BidMessage(Long shopId, String shopName,
                       String bidderName, double amount) {
@@ -51,8 +54,10 @@ public class BidMessage {
 	  public BidMessage() {
 	    }
 
-    // getters & setters
 }
+
+ 
+
  
     
 

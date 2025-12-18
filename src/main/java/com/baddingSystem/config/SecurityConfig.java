@@ -36,7 +36,8 @@ public class SecurityConfig {
 				.requestMatchers(
 						"/admin/login",
 						"/admin/register",
-						"/admin/home"
+						"/admin/home",
+						"/admid/dashboard"
 						).permitAll()
 				.requestMatchers("/admin/master/**").hasRole("MASTER")
 				.requestMatchers("/admin/**").hasAnyRole("NORMAL","MASTER")

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -134,68 +135,7 @@ public class BidService {
 	                .filter(shop -> !shop.getEndDate().isAfter(LocalDate.now()))  // bidding ended
 	                .filter(shop -> shop.getWinnerBid() != null)                  // winner exists
 	                .collect(Collectors.toList());
-	    }
-	    
-
-	    
-	/*    //for immediate winner testing
-	    @Transactional  // ✅ Important
-	    public void declareWinnerNow(Shop shop) {
-	        if (shop.getWinnerBid() == null && LocalDate.now().isAfter(shop.getEndDate())) {
-	            bidRepository.findTopByShopOrderByAmountDesc(shop)
-	                .ifPresent(bid -> {
-	                    shop.setWinnerBid(bid); // set winner
-	                    shopRepository.save(shop);   // save to DB
-
-	                    // send email
-	                //    emailService.sendWinnerEmail(bid.getUser(), shop, bid);
-	                    System.out.println("Winner declared: " + bid.getUser().getName());
-	                });
-	        }
-	    } */
-	    
-	
-
-	    @Transactional
-	    public void declareWinner() {
-
-	        List<Shop> shops = shopRepository.findAll();
-
-	        for (Shop shop : shops) {
-
-	            if (LocalDate.now().isAfter(shop.getEndDate())
-	                    && !winnerRepository.existsByShop(shop)) {
-
-	                bidRepository.findTopByShopOrderByAmountDesc(shop)
-	                    .ifPresent(bid -> {
-
-	                        Winner winner = new Winner();
-	                        winner.setShop(shop);
-	                        winner.setUser(bid.getUser());
-	                        winner.setBid(bid);
-	                        winner.setDeclaredDate(LocalDate.now());
-
-	                        winnerRepository.save(winner);
-
-	                        // optional legacy reference
-	                        shop.setWinnerBid(bid);
-	                        shopRepository.save(shop);
-
-	                        emailService.sendWinnerEmail(
-	                                bid.getUser(),
-	                                shop,
-	                                bid
-	                        );
-
-	                        System.out.println(
-	                            "Winner declared → " + bid.getUser().getName()
-	                        );
-	                    });
-	            }
-	        }
-	    }
-
-	    
+	    }    
 	    
 	    public List<Bid> getBiddingHistoryBySubCategory(Shop shop) {
 	        return bidRepository.findByShopOrderByAmountDesc(shop);
@@ -203,5 +143,42 @@ public class BidService {
 	    
 	    public List<Bid> getAllBiddingHistory() {
 	        return bidRepository.findAllByOrderByBidTimeDesc();
+	    }
+	    
+	    @Transactional
+	    @Scheduled(cron = "0 1 0 * * *") // runs every mid night 12 : 01
+	    public void declareWinnersAt10PM() {
+
+	        List<Shop> shops = shopRepository.findAll();
+
+	        for (Shop shop : shops) {
+
+	            // only consider shops whose bidding has ended and winner not yet declared
+	        	 if (!LocalDate.now().isBefore(shop.getEndDate())
+	                     && !winnerRepository.existsByShop(shop)) {
+
+	                bidRepository.findTopByShopOrderByAmountDesc(shop)
+	                        .ifPresent(bid -> {
+
+	                            // Save winner in Winners table
+	                            Winner winner = new Winner();
+	                            winner.setShop(shop);
+	                            winner.setUser(bid.getUser());
+	                            winner.setBid(bid);
+	                            winner.setDeclaredDate(LocalDate.now());
+	                            winnerRepository.save(winner);
+
+	                            // Optional: update Shop's winnerBid reference
+	                            shop.setWinnerBid(bid);
+	                            shopRepository.save(shop);
+
+	                            // Send confirmation email
+	                            emailService.sendWinnerEmail(bid.getUser(), shop, bid);
+
+	                            System.out.println("Winner declared → " + bid.getUser().getName()
+	                                    + " for shop " + shop.getShopName());
+	                        });
+	            }
+	        }
 	    }
 }
