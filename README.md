@@ -5,7 +5,10 @@ A full-featured online bidding/auction platform built with Spring Boot. Users ca
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.0-green)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
+<<<<<<< HEAD
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+=======
+>>>>>>> 18350c405f08fcb9d9a5b7b4fb9d3e970c5d763c
 
 ---
 
@@ -19,7 +22,10 @@ A full-featured online bidding/auction platform built with Spring Boot. Users ca
 - [Running the Application](#-running-the-application)
 - [Project Structure](#-project-structure)
 - [User Roles](#-user-roles)
+<<<<<<< HEAD
 - [Screenshots](#-screenshots)
+=======
+>>>>>>> 18350c405f08fcb9d9a5b7b4fb9d3e970c5d763c
 - [API Endpoints](#-api-endpoints)
 - [Contributing](#-contributing)
 
@@ -280,6 +286,7 @@ Badding_System/
 
 ---
 
+<<<<<<< HEAD
 ## 🖼️ Screenshots
 
 > Add screenshots of your application here
@@ -296,6 +303,8 @@ Badding_System/
 ### Admin Dashboard
 `[Screenshot of admin dashboard]`
 
+=======
+>>>>>>> 18350c405f08fcb9d9a5b7b4fb9d3e970c5d763c
 ---
 
 ## 🔧 Troubleshooting
@@ -330,17 +339,24 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
+<<<<<<< HEAD
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+=======
+>>>>>>> 18350c405f08fcb9d9a5b7b4fb9d3e970c5d763c
 
 ---
 
 ## 👨‍💻 Author
 
 **Your Name**
+<<<<<<< HEAD
 - GitHub: [@yourusername](https://github.com/yourusername)
 - Email: your.email@example.com
+=======
+- GitHub: [@yourusername](https://github.com/satyampatel9302)
+>>>>>>> 18350c405f08fcb9d9a5b7b4fb9d3e970c5d763c
 
 ---
 
